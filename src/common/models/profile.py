@@ -10,6 +10,9 @@ class Profile(Entity):
         to=User, verbose_name=_('user'), help_text=_('user'),
         on_delete=models.CASCADE, related_name='profile',
     )
+    age = models.IntegerField(default=30)
+    name = models.CharField(default='', max_length=255)
+    nick = models.CharField(default='', max_length=255)
 
     class Meta:
         db_table = 'common.profiles'

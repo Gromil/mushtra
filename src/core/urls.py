@@ -10,6 +10,10 @@ urlpatterns = i18n_patterns(
 urlpatterns += (
     path(route='silk/', view=include(arg='silk.urls')),
 )
+urlpatterns += (
+    path(route='', view=include(arg='common.urls')),
+)
+
 
 if DEBUG:
     from debug_toolbar import urls
