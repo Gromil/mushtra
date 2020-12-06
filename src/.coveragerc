@@ -1,0 +1,10 @@
+[run]
+omit =
+    manage.py
+    core/wsgi.py
+    core/asgi.py
+    core/routing.py
+    core/channels.py
+    core/gunicorn.py
+    core/celery.py
+    ../*migrations*
