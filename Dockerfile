@@ -1,11 +1,10 @@
 FROM python:3.9.0-alpine3.12
 
 ENV PYTHONUNBUFFERED=1 COLUMNS=200 \
-    TZ=Asia/Almaty PIP_CONFIG_FILE=/src/pip.conf
+    TZ=Asia/Almaty
 
 ADD ./src/requirements.txt \
-    ./src/dev_requirements.txt \
-    ./src/pip.conf /src/
+    ./src/dev_requirements.txt /src/
 
 RUN sed -i "s/dl-cdn.alpinelinux.org/mirror.neolabs.kz/g" \
     /etc/apk/repositories \
@@ -15,7 +14,7 @@ RUN sed -i "s/dl-cdn.alpinelinux.org/mirror.neolabs.kz/g" \
     gettext \
 # Add build dependencies
     && apk --no-cache add --virtual .build-deps \
-    tzdata gcc musl-dev libffi-dev make \
+    tzdata gcc g++ musl-dev libffi-dev make \
 # Set timezone
     && ln -fs /usr/share/zoneinfo/Asia/Almaty /etc/localtime \
     && echo "Asia/Almaty" > /etc/timezone \
