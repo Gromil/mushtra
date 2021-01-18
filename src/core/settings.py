@@ -1,7 +1,7 @@
 # TODO: always check for "python manage.py check --deploy"
 from os.path import dirname, abspath, join
 from types import MappingProxyType
-from typing import Tuple, Dict, List, Callable, Any
+from typing import Tuple
 
 import sentry_sdk
 from corsheaders.defaults import default_methods, default_headers
@@ -10,9 +10,8 @@ from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 
 from .helpers import (
-    DEFAULT_APPS, DEFAULT_LOCALE_PATHS, DEFAULT_LANGUAGES,
-    DEFAULT_MIDDLEWARE, REST_FRAMEWORK_SETTINGS, STORAGES,
-    DEFAULT_STORAGE, DEFAULT_TEMPLATES, DEFAULT_VALIDATORS,
+    DEFAULT_APPS, DEFAULT_MIDDLEWARE, REST_FRAMEWORK_SETTINGS,
+    DEFAULT_VALIDATORS, DEFAULT_TEMPLATES
 )
 
 BASE_DIR: str = dirname(dirname(abspath(__file__)))
@@ -44,12 +43,6 @@ SESSION_COOKIE_SECURE: bool = False
 X_FRAME_OPTIONS: str = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF: bool = True
 CSRF_COOKIE_SECURE: bool = False
-# Localization
-LOCALE_PATHS: List = DEFAULT_LOCALE_PATHS
-LANGUAGES: Tuple = DEFAULT_LANGUAGES
-LANGUAGE_CODE: str = 'en'
-USE_I18N: bool = True
-USE_L10N: bool = True
 TIME_ZONE: str = env.str(var='TIME_ZONE')
 USE_TZ: bool = True
 STATIC_URL: str = '/static/'
@@ -63,10 +56,6 @@ CORS_ALLOW_HEADERS: Tuple = default_headers
 CORS_ALLOW_CREDENTIALS: bool = True
 # Rest framework
 REST_FRAMEWORK: MappingProxyType = REST_FRAMEWORK_SETTINGS
-# Storage
-DEFAULT_FILE_STORAGE: str = STORAGES.get(
-    env.str(var='WHERE_TO_KEEP_MEDIA'), DEFAULT_STORAGE
-)
 # Celery
 CELERY_BROKER_URL: str = env.str(var='CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND: str = env.str(var='CELERY_RESULT_BACKEND')
@@ -76,25 +65,3 @@ CELERY_ACCEPT_CONTENT: Tuple = ('application/json',)
 CELERY_TASK_SERIALIZER: str = 'json'
 CELERY_RESULT_SERIALIZER: str = 'json'
 CELERY_TASK_ACKS_LATE: bool = True
-# Silk
-SILKY_PYTHON_PROFILER: bool = True
-SILKY_META: bool = True
-SILKY_INTERCEPT_PERCENT: int = env.int(var='SILKY_INTERCEPT_PERCENT')
-SILKY_MAX_RECORDED_REQUESTS: int = 8192
-SILKY_AUTHENTICATION: bool = True
-SILKY_AUTHORISATION: bool = True
-SILKY_PERMISSIONS: Callable[[Any], Any] = lambda user: user.is_superuser
-# Debug toolbar
-if DEBUG:
-    from .helpers.debug_settings import (
-        DEFAULT_DEBUG_MIDDLEWARE, DEFAULT_DEBUG_INTERNAL_IPS,
-        DEFAULT_DEBUG_TOOLBAR_PANELS, DEFAULT_DEBUG_APPS,
-        DEFAULT_DEBUG_TOOLBAR_CONFIG,
-    )
-
-    # Debug
-    INSTALLED_APPS += DEFAULT_DEBUG_APPS
-    MIDDLEWARE += DEFAULT_DEBUG_MIDDLEWARE
-    INTERNAL_IPS: Tuple = DEFAULT_DEBUG_INTERNAL_IPS
-    DEBUG_TOOLBAR_PANELS: Tuple = DEFAULT_DEBUG_TOOLBAR_PANELS
-    DEBUG_TOOLBAR_CONFIG: Dict = DEFAULT_DEBUG_TOOLBAR_CONFIG

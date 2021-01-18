@@ -7,7 +7,7 @@ DJANGO_APPS: Tuple[str, ...] = (
 )
 SIDE_APPS: Tuple[str, ...] = (
     'corsheaders', 'rest_framework', 'django_extensions',
-    'django_filters', 'django_fsm', 'silk',
+    'django_filters', 'django_fsm', 'rest_framework.authtoken'
 )
-PROJECT_APPS: Tuple[str, ...] = ('common',)
+PROJECT_APPS: Tuple[str, ...] = ('common', 'mushtra')
 DEFAULT_APPS: Tuple[str, ...] = DJANGO_APPS + SIDE_APPS + PROJECT_APPS

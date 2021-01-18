@@ -12,7 +12,6 @@ DJANGO_MIDDLEWARE: Tuple = (
 )
 SIDE_MIDDLEWARE: Tuple = (
     'corsheaders.middleware.CorsMiddleware',
-    'silk.middleware.SilkyMiddleware',
 )
 BEFORE: Tuple = DJANGO_MIDDLEWARE[:3]
 AFTER: Tuple = DJANGO_MIDDLEWARE[3:]
