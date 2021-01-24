@@ -9,24 +9,25 @@ class Task(Entity):
     description = models.CharField(max_length=255)
     active = models.BooleanField(default=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    schedule = models.JSONField(default={})
 
     def __str__(self):
         return self.title
 
 
-class Schedule(models.Model):
-    DAY_CHOICES = (
-        ('mon', 'Понедельник'),
-        ('tue', 'Вторник'),
-        ('wed', 'Среда'),
-        ('thu', 'Четверг'),
-        ('fri', 'Пятница'),
-        ('sat', 'Суббота'),
-        ('sun', 'Воскресенье'),
+class Result(Entity):
+    DONE = 'done'
+    SKIPPED = 'skipped'
+    FAILED = 'failed'
+    INACTIVE = 'inactive'
+
+    STATES = (
+        (DONE, 'done'),
+        (SKIPPED, 'skipped'),
+        (FAILED, 'failed'),
+        (INACTIVE, 'inactive')
     )
 
-    day = models.CharField('День недели', max_length=3, choices=DAY_CHOICES)
     task = models.ForeignKey(Task, on_delete=models.SET_NULL, null=True)
-
-    def __str__(self):
-        return f'{self.task.title} - {self.day}'
+    description = models.CharField(max_length=255, default='')
+    state = models.CharField(choices=STATES, max_length=125)
